@@ -1,17 +1,11 @@
-
-#define TAM_TEXT 100
-#define TAM_BARRA 20
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
 #include "Bool.h"
 
  struct Node_Type
  {
  	int peso;
- 	int valor
+ 	int valor;
  // datos
  	struct Node_Type* siguiente;
  // apuntador al siguiente nodo
@@ -22,11 +16,6 @@
 
 /*--------- Estructura de la lista Enlazada ------------*/
  
- /**
- * [Contiene los apuntadores a los nodos contiguos]
- * @first [Es la dirección del primer nodo]
- * @last  [Es la dirección del último nodo]
- **/
  struct LinkedList_Type
  {
 	Node* first;
@@ -67,14 +56,14 @@
 
 LinkedList* LinkedList_Create ();
 
-
 void LinkedList_Destroy (LinkedList* this);
-
 
  void LinkedList_Remove(LinkedList* this);
 
 Bool LinkedList_Insert (LinkedList* this, int peso, int valor);
 
+#if 0
 Bool LinkedList_FindIf (LinkedList* this, int val);
 
 Node* LinkedList_Search(LinkedList* this, int val);
+ #endif

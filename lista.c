@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lldblc.h"
+#include "lista.h"
 
  	/* Funciones de la Listas */
  LinkedList* LinkedList_Create ()
@@ -37,10 +37,9 @@
 	 }
 }
 
-
- Bool LinkedList_Insert (LinkedList* this,int indice, char* barra, char* nombre, int cantidad, float cUni, float cTotal)
+ Bool LinkedList_Insert (LinkedList* this,int peso, int valor)
  {
-	 Node* n = newNode (indice, barra, nombre, cantidad, cUni, cTotal);
+	 Node* n = newNode (peso, valor);
 	 if (!n) { return FALSE; }
 	 // si es NULL devuelve FALSE
 	 // ya hay nodos en la lista, es decir, la lista NO está vacía
@@ -59,6 +58,7 @@
  }
 
 
+#if 0
  Bool LinkedList_FindIf (LinkedList* this, int val)
  {
 	 Node* it = this->first;
@@ -86,3 +86,4 @@ Node* LinkedList_Search(LinkedList* this, int val)
  	}
  	return NULL; // NO Encontro el elemento, por lo tanto es NULL;
  }
+#endif
