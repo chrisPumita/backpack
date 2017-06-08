@@ -125,3 +125,32 @@ void destruyeLista(LinkedList* this)
 {
 	LinkedList_Destroy(this);
 }
+
+#if 0
+void Ordena(LinkedList* this, int Nelementos)
+{
+		//DE MENOR A MAYOR (Ascendente)
+	printf("ORDENAMIENTO\n");
+	Node* it = this->first;
+	int i,j;                //Variables contadoras del ciclo.
+
+	int temp=0;             //Variable temporal.
+
+	for (i=1;i<Nelementos;i++)
+	{
+	       for (j=0; j <= Nelementos-i ;j++) // for(j=0; j < Nelementos-i; j++) es menor y no menor igual
+	       {
+	          if (it->peso > ++it->peso)//Condicion mayor-menor
+	          {
+	            temp = it->peso;
+	            it->peso= ++it->peso;
+	            ++it->peso;
+	            it->peso=temp;
+	          }
+	       }
+	}
+	//Para cambiar el modo de ordenamiento solo debemos cambiar la condicion < ó >
+
+}
+
+#endif

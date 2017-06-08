@@ -35,4 +35,11 @@ LinkedList * crearLista();
  * @param this [Apuntador a la lista]
  */
 void destruyeLista(LinkedList* this);
+
+/**
+ * [Ordena Ordena de AC]
+ * @param this       [lista que va a ordenar]
+ * @param Nelementos [NO de elementos que tiene la lista]
+ */
+void Ordena(LinkedList* this, int Nelementos);
 #endif

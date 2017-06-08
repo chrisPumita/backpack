@@ -42,19 +42,19 @@ int main(int argc, char const *argv[])
 
 	//llenando la lista de objetos.
 	ListaSet(objetos, noObj);
-
+	//Ordena(objetos,noObj);
+	printf("OBJETOS ALMACENADOS:\n");
+	getListas(objetos);
 	//Funcion que calcula por programacion dinámica 
 	MochilaPD(objetos, solucion, noObj, wMochila);
 
 	//Imprimo las listas tanto como las de objestos como la de solcion
-	printf("OBJETOS ALMACENADOS:\n");
-	getListas(objetos);
 	printf("\n");
 	printf("SOLUCION\n");
 	getListas(solucion);
 	printf("\n\n\n");
 				printf("\E[0;4;37;41;1;33m\t\tC R E D I T O S:\E[00m\n\n");
-				printf("\E[43;5;1;32;8m\tPROGRAMADOR: Pioquinto Hernandez Christian René  \E[00m  ");
+				printf("\E[43;5;1;32;8m\tPROGRAMADOR: Christian RCSG \E[00m  ");
 				printf("\E[1;42m  \E[00m\E[37;41m▓▓\E[00m\E[37;41m  \E[00m  \n\t\t\E[1;42mHecho\E[00m\E[1;37;47;0men\E[00m\E[37;41mMéxico\E[00m\n");
 
 	//LIberando memoria dinámica
