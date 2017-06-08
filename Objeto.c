@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include "lista.h"
 #include "Objeto.h"
 #define max(a,b) \
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \
      _a > _b ? _a : _b; })
-#define clear() printf("\033[H\033[J") 
-#define MAX 202
+   //Definido para calcular el maximo de dos números
 
-//El peso MAX de la mochila sera de 20
+/*----------------------------------------------------
+ *  Implementación del ADT Objeto: Objeto.c
+ *----------------------------------------------------*/
 
-void verListas(LinkedList* this)
+void getListas(LinkedList* this)
 {
 	Node* it = this->first;
 	while (it != NULL) 
@@ -21,20 +21,19 @@ void verListas(LinkedList* this)
 	}
 }
 
-void CreaListaObj(LinkedList* this, int noObj)
+void ListaSet(LinkedList* this, int noObj)
 {
 	int peso, valor;
 	for (size_t i = 0; i < noObj; ++i)
 	{
-		printf("Ingrese el peso del Objeto %d:\n->",i);
+		printf("Ingrese el peso del Objeto %d:\n->",i+1);
 		scanf("%d",&peso);
-		printf("Ingrese el valor del Objeto %d:\n->>",i);
+		printf("Ingrese el valor del Objeto %d:\n->>",i+1);
 		scanf("%d",&valor);
 		LinkedList_Insert(this, peso, valor);
 	}
 }
 
-#if 1
 void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 {
 	//declarando arreglos de peso y valor
@@ -115,44 +114,14 @@ void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 		}
 	}
 }
-#endif
 
-
-int main(int argc, char const *argv[])
+LinkedList * crearLista()
 {
-	clear();
-	printf("\tBienvenido al programa de la mochila. :D\n");
+	LinkedList * newList =  LinkedList_Create();
+	return newList;
+}
 
-	//creando los conjuntos en memoria dinamica
-	LinkedList* objetos  = LinkedList_Create ();
-	LinkedList* solucion = LinkedList_Create();
-	
-	//El usuario decide cuantos objetos ingresar y el peso MAX de la mochila
-	int noObj, wMochila;
-
-	printf("Ingrese el Numero de Objetos:\n->");
-	scanf("%d",&noObj);
-	printf("Ingrese el Peso MAXIMO de la mochila:\n->");
-	scanf("%d",&wMochila);
-	//llenando la lista de objetos.
-	CreaListaObj(objetos, noObj);
-
-	//Funcion que calcula por programacion dinámica 
-	MochilaPD(objetos, solucion, noObj, wMochila);
-
-	//Imprimo las listas tanto como las de objestos como la de solcion
-	printf("OBJETOS ALMACENADOS:\n");
-	verListas(objetos);
-	printf("\n");
-	printf("SOLUCION\n");
-	verListas(solucion);
-	printf("\n\n\n");
-				printf("\E[0;4;37;41;1;33m\t\tC R E D I T O S:\E[00m\n\n");
-				printf("\E[43;5;1;32;8m\tPROGRAMADOR: Pioquinto Hernandez Christian René  \E[00m  ");
-				printf("\E[1;42m  \E[00m\E[37;41m▓▓\E[00m\E[37;41m  \E[00m  \n\t\t\E[1;42mHecho\E[00m\E[1;37;47;0men\E[00m\E[37;41mMéxico\E[00m\n");
-
-	//LIberando memoria dinamica
-	LinkedList_Destroy(objetos);
-	LinkedList_Destroy(solucion);
-	return 0;
+void destruyeLista(LinkedList* this)
+{
+	LinkedList_Destroy(this);
 }

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "lista.h"
 
- 	/* Funciones de la Listas */
+ /* Funciones de la Listas */
  LinkedList* LinkedList_Create ()
  {
  	LinkedList* n = (LinkedList *)malloc (sizeof (LinkedList));
