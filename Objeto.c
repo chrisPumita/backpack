@@ -21,7 +21,7 @@ void verListas(LinkedList* this)
 	}
 }
 
-void CreaListProductos(LinkedList* this, int noObj)
+void CreaListaObj(LinkedList* this, int noObj)
 {
 	int peso, valor;
 	for (size_t i = 0; i < noObj; ++i)
@@ -34,7 +34,6 @@ void CreaListProductos(LinkedList* this, int noObj)
 	}
 }
 
-
 #if 1
 void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 {
@@ -42,7 +41,7 @@ void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 	int peso[n];
 	int valor[n];
 	int i = 0;
-	int dp[50][50];
+	int Matriz[50][50];
 	//recuperando los datos del NODO
 	Node* it = this->first;
 	while (it != NULL) 
@@ -51,60 +50,66 @@ void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 		peso[i] = it->peso;
 		valor[i]= it->valor;
 		i++;
-		printf("w->: %d & ",it->peso);
-		printf("val: %d\n",it->valor);
+//		printf("w->: %d & ",it->peso);
+//		printf("val: %d\n",it->valor);
 		it = it->siguiente;
 	}
 
-printf("\n");
+	printf("\n");
 	//inicializando tabla
-	dp[n+1][w+1];
+	Matriz[n+1][w+1];
 	int m = w;
 
-	//inicializando filas y columas en 0
-	for (size_t i = 0; i < n; ++i){ dp[i][0] = 0; }
-	for (size_t i = 0; i < m; ++i){ dp[0][i] = 0; } 
+	//inicializando la 1ra fila y columa en 0
+	for (size_t i = 0; i < n; ++i){ Matriz[i][0] = 0; }
+	for (size_t i = 0; i < m; ++i){ Matriz[0][i] = 0; } 
 
 	for (int i = 1; i <= n; ++i)
 	{
+		//Para cada elemeno, recorrerlo de forma horizontal
 		for (int j = 1; j <= m; ++j)
 		{
+			//Comparando el peso con el el peso MAX de la mochila
 			if (peso[i-1] <= j)
 			{
-				dp[i][j] = max(dp[i-1][j],valor[i-1] + dp[i-1][j-peso[i-1]]);
+				//Si el peso es menor, entonces es posible solucion
+				Matriz[i][j] = max(Matriz[i-1][j],valor[i-1] + Matriz[i-1][j-peso[i-1]]);
 			}
 			else
 			{
-				dp[i][j] = dp[i-1][j];
+				//Copio el elemnto de arriba de la tabla
+				Matriz[i][j] = Matriz[i-1][j];
 			}
 		}
 	}
 
-
-	printf("EL VALOR MAX ES: %d\n",dp[n][m]);
+	//Mostrando resultados obtenidos
+	printf("EL VALOR MAX ES: %d\n",Matriz[n][m]);
 
 	printf("IMPRIMIENDO TABLA ANALITICA\n");
 
 	for (int i = 0; i <= n; ++i)
 	{
+		printf("|");
 		for (int j = 0; j <= m; ++j)
 		{
-			printf("| %d |",dp[i][j]);
+			printf("\E[0;1;32m\t%d\E[00m",Matriz[i][j]);
+			//printf("\t%d",Matriz[i][j]);
 		}
+		printf("\t|\n");
 		printf("\n");
 	}
 
-	printf("Imprimiendo conjunto solucion:\n");
+	//Almacenando en Conjunto solución
 	int j = w;
 	for (int i = n; i > 0; --i)
 	{
-		if (dp[i][j] == dp[i-1][j])
+		if (Matriz[i][j] == Matriz[i-1][j])
 		{
 			
 		}
 		else
 		{
-			printf("%d\n",peso[i-1]);
 			j-= peso[i-1];
 			LinkedList_Insert(sol, peso[i-1], valor[i-1]);
 		}
@@ -112,26 +117,42 @@ printf("\n");
 }
 #endif
 
+
 int main(int argc, char const *argv[])
 {
 	clear();
-/*
-	int  peso[4] = {2,3,4,5};
-	int valor[4] = {3,4,5,6};
- */
-	//creando objetos
+	printf("\tBienvenido al programa de la mochila. :D\n");
+
+	//creando los conjuntos en memoria dinamica
 	LinkedList* objetos  = LinkedList_Create ();
 	LinkedList* solucion = LinkedList_Create();
+	
+	//El usuario decide cuantos objetos ingresar y el peso MAX de la mochila
 	int noObj, wMochila;
 
 	printf("Ingrese el Numero de Objetos:\n->");
 	scanf("%d",&noObj);
 	printf("Ingrese el Peso MAXIMO de la mochila:\n->");
 	scanf("%d",&wMochila);
-	//llenando la lista de prodicto
-	CreaListProductos(objetos, noObj);
+	//llenando la lista de objetos.
+	CreaListaObj(objetos, noObj);
+
+	//Funcion que calcula por programacion dinámica 
 	MochilaPD(objetos, solucion, noObj, wMochila);
+
+	//Imprimo las listas tanto como las de objestos como la de solcion
+	printf("OBJETOS ALMACENADOS:\n");
+	verListas(objetos);
+	printf("\n");
 	printf("SOLUCION\n");
 	verListas(solucion);
+	printf("\n\n\n");
+				printf("\E[0;4;37;41;1;33m\t\tC R E D I T O S:\E[00m\n\n");
+				printf("\E[43;5;1;32;8m\tPROGRAMADOR: Pioquinto Hernandez Christian René  \E[00m  ");
+				printf("\E[1;42m  \E[00m\E[37;41m▓▓\E[00m\E[37;41m  \E[00m  \n\t\t\E[1;42mHecho\E[00m\E[1;37;47;0men\E[00m\E[37;41mMéxico\E[00m\n");
+
+	//LIberando memoria dinamica
+	LinkedList_Destroy(objetos);
+	LinkedList_Destroy(solucion);
 	return 0;
 }

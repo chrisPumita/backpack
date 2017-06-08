@@ -58,7 +58,7 @@ LinkedList* LinkedList_Create ();
 
 void LinkedList_Destroy (LinkedList* this);
 
- void LinkedList_Remove(LinkedList* this);
+void LinkedList_Remove(LinkedList* this);
 
 Bool LinkedList_Insert (LinkedList* this, int peso, int valor);
 
