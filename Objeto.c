@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "lista.h"
 #include "Objeto.h"
+#define max(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _a : _b; })
 #define clear() printf("\033[H\033[J") 
 #define MAX 202
 
@@ -52,61 +56,134 @@ LinkedList* MochilaPD(LinkedList *obj, int w)
 int main(int argc, char const *argv[])
 {
 	clear();
-	int Items[4][2] = 
-					{  //w i
-						{2,3},
-						{3,4},
-						{4,5},
-						{5,6}
-					};
-
-	int W = 5; // PESO MAX DE LA MOCHILA
-	int n = 4; // ELEMENTO
-	int V[W][n];
-
-	//I elementos
-	//W peso
-	for (size_t w = 0; w < W; ++w) {V[0][w] = 0;} // fila
-	for (size_t i = 1; i < n; ++i) {V[i][0] = 0;} // columna
-		//llenando la V en las primeras columnas con ceros
 
 
-	for (size_t i = 1; i < n; ++i)
+
+	int  peso[4] = {2,3,4,5};
+	int valor[4] = {3,4,5,6};
+
+
+	int dp[50][50];
+
+	int n = 4, w = 5;
+	dp[n+1][w+1];
+	int m = w;
+	for (size_t i = 0; i < n; ++i){ dp[i][0] = 0; }
+	for (size_t i = 0; i < m; ++i){ dp[0][i] = 0; } 
+
+	for (int i = 1; i <= n; ++i)
 	{
-		for (size_t w = 1; w < W; ++w)
+		for (int j = 1; j <= m; ++j)
 		{
-			// comparacion de los pesos
-			printf("i = %d - ",i);
-			printf("bi = %d - ",Items[i-1][1]); // El valor
-			printf("wi = %d - ",Items[i-1][0]); // el peso w
-			printf("w = %d - ",w);
-			printf("i = %d\n",w-Items[i-1][0]);
-			if (V[i][w]<=w)
+			if (peso[i-1] <= j)
 			{
-				if (Items[i-1][1] + V[i-1][w-Items[i-1][0]]>V[i-1][w])
-				{
-					V[i][w] = Items[i-1][1] + V[i-1][w-Items[i-1][0]];
-				}
-				else
-				{
-					V[i][w] = V [i-1][w];
-				}
+				dp[i][j] = max(dp[i-1][j],valor[i-1] + dp[i-1][j-peso[i-1]]);
 			}
 			else
 			{
-				V[i][w] = V[i-1][w]; // w1 > w
+				dp[i][j] = dp[i-1][j];
 			}
 		}
 	}
 
-for (size_t i = 0; i < n; ++i)
-{
-	for (size_t j = 0; j < W; ++j)
+printf("EL VALOR MAX ES: %d\n",dp[n][m]);
+for (int i = 0; i <= n; ++i)
 	{
-		printf("[%d]",V[i][j]);
+		for (int j = 0; j <= m; ++j)
+		{
+			printf("[%d]",dp[i][j]);
+		}
+		printf("\n");
 	}
-	printf("\n");
-}
+
+	int j = w;
+	for (int i = n; i > 0; --i)
+	{
+		if (dp[i][j] == dp[i-1][j])
+		{
+			/* code */
+		}
+		else
+		{
+			printf("%d\n",peso[i-1]);
+			j-= peso[i-1];
+		}
+	}
+
+#if 0
+	int Items[4][2] = 
+					{  //w i
+						{3,6},
+						{5,7},
+						{6,8}
+					};
+
+	int W = 6; // PESO MAX DE LA MOCHILA
+	int n = 3; // ELEMENTO
+	int V[W][n];
+
+	//I elementos
+	//W peso
+		//llenando la V en TODO con ceros
+		//
+	for (int i = 0; i <= n; ++i)
+	{
+		for (int j = 0; j <= W; ++j)
+		{
+			V[i][j]= 0;
+			printf("[%d]",V[i][j]);
+		}
+		printf("\n");
+	}
+
+int cont = 1;
+
+	for (int i = 1; i <= n; ++i)
+	{
+		printf("\n");
+		for (int w = 1; w <= W; ++w)
+		{
+			printf("CASO %d\n",cont);
+			// comparacion de los pesos
+			printf("i = %d ",i);
+			int bi = Items[i-1][1];
+			printf("bi = %d ",bi); // El valor
+			int wi = Items[i-1][0];
+			printf("wi = %d ",wi); // el peso w
+			printf("w = %d ",w);
+			printf("w-wi = %d ",w-wi);
+			if (wi<=w) // Elemento i puede ser parte de la solución
+			{
+				V[i][w] = V[i-1][w];
+				if (bi + V[i-1][w-wi]>V[i-1][w])
+				{
+					V[i][w] = bi + V[i-1][w-wi];
+				}
+				else
+				{
+					V[i][w] = V[i-1][w];
+				}
+			printf("VAL DE V[%d][%d] = %d ::  ",i,w,V[i][w]);
+			}
+			else
+			{
+				V[i][w] = V[i-1][w]; // w1 > w
+				printf("VAL DE V[%d][%d] = %d ::  ",i,w,V[i][w]);
+				printf("  wi > w ");
+			}
+			cont++;
+		}
+	}
+printf("\n");
+	for (int i = 0; i <= n; ++i)
+	{
+		for (int j = 0; j <= W; ++j)
+		{
+			printf("[%d]",V[i][j]);
+		}
+		printf("\n");
+	}
+#endif
 
 #if 0
 
