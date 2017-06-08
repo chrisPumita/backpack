@@ -21,53 +21,47 @@ void verListas(LinkedList* this)
 	}
 }
 
-#if 0
-LinkedList* MochilaPD(LinkedList *obj, int w)
+void CreaListProductos(LinkedList* this, int noObj)
 {
-	LinkedList* solucion = LinkedList_Create();
-	//Creamos la lista de solcuiones vacia (SIN NODOS)
-
-	//obj, son los objetos que ya existen en otra lista y que iremos comparado
-	// recorremos todos los productos hasta el ultimo
-	Node* it = obj->first;
-	int pesoAct= 0;
-	while (it != NULL) 
+	int peso, valor;
+	for (size_t i = 0; i < noObj; ++i)
 	{
-		while(pesoAct<w)
-		{
-
-		}
-		if (it->peso<w)
-		{
-			// Puede entrar en la mochila
-			LinkedList_Insert (solucion, it->peso, it->capacidad);
-			pesoMochila += it->peso
-		}
-
-		/*
-		printf("PESO: %d & ",it->peso);
-		printf("VALOR: %d\n",it->valor);
-		 */
-		it = it->siguiente;
+		printf("Ingrese el peso del Objeto %d:\n->",i);
+		scanf("%d",&peso);
+		printf("Ingrese el valor del Objeto %d:\n->>",i);
+		scanf("%d",&valor);
+		LinkedList_Insert(this, peso, valor);
 	}
 }
-#endif
 
-int main(int argc, char const *argv[])
+
+#if 1
+void MochilaPD(LinkedList* this, LinkedList* sol, int n, int w)
 {
-	clear();
-
-
-
-	int  peso[4] = {2,3,4,5};
-	int valor[4] = {3,4,5,6};
-
-
+	//declarando arreglos de peso y valor
+	int peso[n];
+	int valor[n];
+	int i = 0;
 	int dp[50][50];
+	//recuperando los datos del NODO
+	Node* it = this->first;
+	while (it != NULL) 
+	//while (i<=n) 
+	{
+		peso[i] = it->peso;
+		valor[i]= it->valor;
+		i++;
+		printf("w->: %d & ",it->peso);
+		printf("val: %d\n",it->valor);
+		it = it->siguiente;
+	}
 
-	int n = 4, w = 5;
+printf("\n");
+	//inicializando tabla
 	dp[n+1][w+1];
 	int m = w;
+
+	//inicializando filas y columas en 0
 	for (size_t i = 0; i < n; ++i){ dp[i][0] = 0; }
 	for (size_t i = 0; i < m; ++i){ dp[0][i] = 0; } 
 
@@ -86,128 +80,58 @@ int main(int argc, char const *argv[])
 		}
 	}
 
-printf("EL VALOR MAX ES: %d\n",dp[n][m]);
-for (int i = 0; i <= n; ++i)
+
+	printf("EL VALOR MAX ES: %d\n",dp[n][m]);
+
+	printf("IMPRIMIENDO TABLA ANALITICA\n");
+
+	for (int i = 0; i <= n; ++i)
 	{
 		for (int j = 0; j <= m; ++j)
 		{
-			printf("[%d]",dp[i][j]);
+			printf("| %d |",dp[i][j]);
 		}
 		printf("\n");
 	}
 
+	printf("Imprimiendo conjunto solucion:\n");
 	int j = w;
 	for (int i = n; i > 0; --i)
 	{
 		if (dp[i][j] == dp[i-1][j])
 		{
-			/* code */
+			
 		}
 		else
 		{
 			printf("%d\n",peso[i-1]);
 			j-= peso[i-1];
+			LinkedList_Insert(sol, peso[i-1], valor[i-1]);
 		}
 	}
-
-#if 0
-	int Items[4][2] = 
-					{  //w i
-						{3,6},
-						{5,7},
-						{6,8}
-					};
-
-	int W = 6; // PESO MAX DE LA MOCHILA
-	int n = 3; // ELEMENTO
-	int V[W][n];
-
-	//I elementos
-	//W peso
-		//llenando la V en TODO con ceros
-		//
-	for (int i = 0; i <= n; ++i)
-	{
-		for (int j = 0; j <= W; ++j)
-		{
-			V[i][j]= 0;
-			printf("[%d]",V[i][j]);
-		}
-		printf("\n");
-	}
-
-int cont = 1;
-
-	for (int i = 1; i <= n; ++i)
-	{
-		printf("\n");
-		for (int w = 1; w <= W; ++w)
-		{
-			printf("CASO %d\n",cont);
-			// comparacion de los pesos
-			printf("i = %d ",i);
-			int bi = Items[i-1][1];
-			printf("bi = %d ",bi); // El valor
-			int wi = Items[i-1][0];
-			printf("wi = %d ",wi); // el peso w
-			printf("w = %d ",w);
-			printf("w-wi = %d ",w-wi);
-			if (wi<=w) // Elemento i puede ser parte de la solución
-			{
-				V[i][w] = V[i-1][w];
-				if (bi + V[i-1][w-wi]>V[i-1][w])
-				{
-					V[i][w] = bi + V[i-1][w-wi];
-				}
-				else
-				{
-					V[i][w] = V[i-1][w];
-				}
-			printf("VAL DE V[%d][%d] = %d ::  ",i,w,V[i][w]);
-			}
-			else
-			{
-				V[i][w] = V[i-1][w]; // w1 > w
-				printf("VAL DE V[%d][%d] = %d ::  ",i,w,V[i][w]);
-				printf("  wi > w ");
-			}
-			cont++;
-		}
-	}
-printf("\n");
-	for (int i = 0; i <= n; ++i)
-	{
-		for (int j = 0; j <= W; ++j)
-		{
-			printf("[%d]",V[i][j]);
-		}
-		printf("\n");
-	}
+}
 #endif
 
-#if 0
-
-
+int main(int argc, char const *argv[])
+{
+	clear();
+/*
+	int  peso[4] = {2,3,4,5};
+	int valor[4] = {3,4,5,6};
+ */
 	//creando objetos
 	LinkedList* objetos  = LinkedList_Create ();
 	LinkedList* solucion = LinkedList_Create();
-	
+	int noObj, wMochila;
 
-
-	//Definiendo el pero maximo de la mochola
-
-	//ingresando proudtos a la lista
-	// Peso / Valor
-	LinkedList_Insert(objetos, 10, 20);
-	LinkedList_Insert(objetos, 20, 30);
-	LinkedList_Insert(objetos, 30, 66);
-	LinkedList_Insert(objetos, 40, 40);
-	LinkedList_Insert(objetos, 50, 60);
-	printf("Soluciones\n OBJETOS TODOS");
-	verListas(objetos);
-
-	printf("Solucion MOCHILA\n", );
+	printf("Ingrese el Numero de Objetos:\n->");
+	scanf("%d",&noObj);
+	printf("Ingrese el Peso MAXIMO de la mochila:\n->");
+	scanf("%d",&wMochila);
+	//llenando la lista de prodicto
+	CreaListProductos(objetos, noObj);
+	MochilaPD(objetos, solucion, noObj, wMochila);
+	printf("SOLUCION\n");
 	verListas(solucion);
-#endif
 	return 0;
 }
